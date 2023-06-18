@@ -1,38 +1,35 @@
 package com.driver.model;
 
+
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "spot")
 public class Spot {
-
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Enumerated(value = EnumType.STRING)
-    private SpotType spotType;
-    private int pricePerHour;
-    Boolean occupied=false;
 
+    @Enumerated(EnumType.STRING)
+    private SpotType spotType;
+
+    private int pricePerHour;
+    private Boolean occupied;
     @ManyToOne
     @JoinColumn
-    ParkingLot parkingLot;
+    private ParkingLot parkingLot;
 
     @OneToMany(mappedBy = "spot",cascade = CascadeType.ALL)
-    List<Reservation> reservationList=new ArrayList<>();
+    private List<Reservation> reservationList=new ArrayList<>();
 
     public Spot() {
     }
 
-    public Spot(int id, SpotType spotType, int pricePerHour, Boolean occupied, ParkingLot parkingLot, List<Reservation> reservationList) {
-        this.id = id;
+    public Spot(SpotType spotType, int pricePerHour) {
         this.spotType = spotType;
         this.pricePerHour = pricePerHour;
-        this.occupied = occupied;
-        this.parkingLot = parkingLot;
-        this.reservationList = reservationList;
     }
 
     public int getId() {
